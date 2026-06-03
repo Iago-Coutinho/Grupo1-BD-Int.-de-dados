@@ -1,0 +1,162 @@
+{
+    "metadados": {
+        "cabecalho": {
+            "titulo": "",
+            "descricao": "",
+            "categoria_vcge": "",
+            "fonte_dados": "",
+            "licenca": "Open Database License (ODbL)",
+            "responsavel_dados": "",
+            "responsavel_disponibilizar": "EMPREL",
+            "frequencia_atualizacao": "Anual",
+            "endereco_dataset": "",
+            "status": "ativo",
+            "endereco_dataset_substituto": "",
+            "granularidade": "",
+            "etiquetas": ""
+        },
+        "recursos": [
+            {
+                "identificador": "",
+                "titulo": "",
+                "formato": "csv",
+                "descricao": ""
+            }
+        ],
+        "campos": [
+            {
+                "codigo": "LOGRADOURO",
+                "descricao": "Nome do Logradouro onde o imóvel se localiza",
+                "tipo": "Char",
+                "tamanho": 38,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "NUMERO",
+                "descricao": "Número do imóvel",
+                "tipo": "Char",
+                "tamanho": 15,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "COMPLEMENTO",
+                "descricao": "Complemento do endereço",
+                "tipo": "Char",
+                "tamanho": 61,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "BAIRRO",
+                "descricao": "Bairro onde o imóvel está localizado",
+                "tipo": "Char",
+                "tamanho": 30,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "CIDADE",
+                "descricao": "Cidade onde o imóvel está localizado",
+                "tipo": "Char",
+                "tamanho": 30,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "ESTADO",
+                "descricao": "Sigla do estado onde o imóvel está localizado",
+                "tipo": "Char",
+                "tamanho": "02",
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "ANO CONSTRUCAO",
+                "descricao": "Ano em que o imóvel foi construido",
+                "tipo": "Num",
+                "tamanho": 4,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "AREA TERRENO",
+                "descricao": "Área do terreno em metros",
+                "tipo": "Num",
+                "tamanho": 8.2,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "AREA CONSTRUIDA",
+                "descricao": "Área total da construção em metros",
+                "tipo": "Char",
+                "tamanho": 11,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "FRACAO IDEAL",
+                "descricao": "Fração ideal",
+                "tipo": "Num",
+                "tamanho": 7.5,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "PADRAO ACABAMENTO",
+                "descricao": "Padrão de acabamento do imóvel",
+                "tipo": "Char",
+                "tamanho": 11,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "TIPO CONSTRUCAO",
+                "descricao": "Tipo de construção",
+                "tipo": "Char",
+                "tamanho": 30,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "TIPO OCUPACAO",
+                "descricao": "Tipo de ocupação dada ao imóvel",
+                "tipo": "Char",
+                "tamanho": 30,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "VALOR AVALIACAO",
+                "descricao": "Valor de avaliação do imóvel",
+                "tipo": "Num",
+                "tamanho": 12.2,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "DATA TRANSACAO",
+                "descricao": "Data da última compra/venda do imóvel",
+                "tipo": "Char",
+                "tamanho": 26,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "ESTADO CONSERVACAO",
+                "descricao": "Estado de conservação do imóvel",
+                "tipo": "Char",
+                "tamanho": 10,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "TIPO DE IMOVEL",
+                "descricao": "Tipo de imóvel",
+                "tipo": "Char",
+                "tamanho": 30,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "SEQUENCIAL",
+                "descricao": "Número único do imóvel, criptografado",
+                "tipo": "Char",
+                "tamanho": 30,
+                "valores_permitidos": ""
+            },
+            {
+                "codigo": "SFH",
+                "descricao": "SFH",
+                "tipo": "Num",
+                "tamanho": 12.2,
+                "valores_permitidos": ""
+            }
+        ]
+    }
+}
