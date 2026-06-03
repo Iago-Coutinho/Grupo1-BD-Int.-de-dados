@@ -4,7 +4,7 @@
 
 - **Universidade:** Universidade Federal de Pernambuco (UFPE)
 - **Centro:** Centro de Informática (CIn)
-- **Disciplina:** Gerenciamento de Dados e Informação (IF685)
+- **Disciplina:** Banco de Dados (CIN0137)
 - **Professor(a):** Valéria Times
 - **Atividades:** Projeto de Integração de dados
 
