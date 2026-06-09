@@ -1,0 +1,12 @@
+itbi_dw:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: aws-1-us-east-2.pooler.supabase.com
+      port: 6543
+      user: postgres.dyyhifhwapuxajidpwyx
+      password: "Mulato#123#"
+      dbname: postgres
+      schema: dw_elt
+      threads: 1
