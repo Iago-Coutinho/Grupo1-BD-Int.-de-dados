@@ -1,161 +1,286 @@
 {
     "metadados": {
         "cabecalho": {
-            "titulo": "",
-            "descricao": "",
-            "categoria_vcge": "",
-            "fonte_dados": "",
+            "titulo": "Imposto sobre Transmissão de Bens Imóveis (ITBI) - Recife",
+            "descricao": "Relação de transações imobiliárias com recolhimento de ITBI no município do Recife, contendo características dos imóveis e informações sobre as operações. Base unificada dos anos de 2023, 2024 e 2025.",
+            "categoria_vcge": "Finanças e Tributação",
+            "fonte_dados": "Prefeitura do Recife - Secretaria de Finanças",
             "licenca": "Open Database License (ODbL)",
-            "responsavel_dados": "",
+            "responsavel_dados": "Secretaria de Finanças do Recife",
             "responsavel_disponibilizar": "EMPREL",
             "frequencia_atualizacao": "Anual",
-            "endereco_dataset": "",
+            "endereco_dataset": "https://dados.recife.pe.gov.br/pt_PT/dataset/imposto-sobre-transmissao-de-bens-imoveis-itbi",
             "status": "ativo",
             "endereco_dataset_substituto": "",
-            "granularidade": "",
-            "etiquetas": ""
+            "granularidade": "Uma linha por transação imobiliária com recolhimento de ITBI",
+            "etiquetas": "itbi, imóveis, tributos, transações imobiliárias, recife"
         },
         "recursos": [
             {
-                "identificador": "",
-                "titulo": "",
+                "identificador": "itbi_2023",
+                "titulo": "ITBI Recife 2023",
                 "formato": "csv",
-                "descricao": ""
+                "descricao": "Transações imobiliárias com recolhimento de ITBI referentes ao ano de 2023"
+            },
+            {
+                "identificador": "itbi_2024",
+                "titulo": "ITBI Recife 2024",
+                "formato": "csv",
+                "descricao": "Transações imobiliárias com recolhimento de ITBI referentes ao ano de 2024"
+            },
+            {
+                "identificador": "itbi_2025",
+                "titulo": "ITBI Recife 2025",
+                "formato": "csv",
+                "descricao": "Transações imobiliárias com recolhimento de ITBI referentes ao ano de 2025"
+            },
+            {
+                "identificador": "imoveis_unificado",
+                "titulo": "ITBI Recife Unificado (2023–2025)",
+                "formato": "csv",
+                "descricao": "Base consolidada após unificação e tratamento ETL dos três arquivos anuais. 44.232 registros, separador ponto e vírgula, encoding UTF-8."
             }
         ],
         "campos": [
             {
-                "codigo": "LOGRADOURO",
-                "descricao": "Nome do Logradouro onde o imóvel se localiza",
-                "tipo": "Char",
-                "tamanho": 38,
+                "codigo": "logradouro",
+                "descricao": "Nome do logradouro onde o imóvel se localiza. Encoding corrigido (UTF-8/latin-1), acentos removidos para unificação, abreviações expandidas para a forma completa (ex: 'eng' -> 'engenheiro', 'dr' -> 'doutor') e pontuações inconsistentes removidas.",
+                "tipo_original_fonte": "Char",
+                "tamanho_original": 38,
+                "tipo_final_etl": "str",
+                "nulos": 0,
+                "origem": "Original + tratado",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "NUMERO",
-                "descricao": "Número do imóvel",
-                "tipo": "Char",
-                "tamanho": 15,
+                "codigo": "numero",
+                "descricao": "Número do imóvel no logradouro. Sentinelas de 'sem número' padronizados para 'SN' (ex: '-1', '0', 'S/N', 'SEM NUMERO'). Zeros à esquerda removidos. Hífen inserido entre número e sufixo alfabético (ex: '123A' -> '123-A').",
+                "tipo_original_fonte": "Char",
+                "tamanho_original": 15,
+                "tipo_final_etl": "str",
+                "nulos": 0,
+                "origem": "Original + tratado",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "COMPLEMENTO",
-                "descricao": "Complemento do endereço",
-                "tipo": "Char",
-                "tamanho": 61,
+                "codigo": "complemento_numero",
+                "descricao": "Unidade do imóvel extraída via regex do campo COMPLEMENTO original (ex: 'APTO 203', 'SALA 0609'). 'não informado' quando o imóvel não possui complemento de unidade - ausência semanticamente válida. Coluna derivada: não existe na fonte original.",
+                "tipo_original_fonte": "Derivado de COMPLEMENTO (Char 61)",
+                "tamanho_original": null,
+                "tipo_final_etl": "str",
+                "nulos": 0,
+                "origem": "Derivado de COMPLEMENTO",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "BAIRRO",
-                "descricao": "Bairro onde o imóvel está localizado",
-                "tipo": "Char",
-                "tamanho": 30,
+                "codigo": "nome_edificio",
+                "descricao": "Nome do edifício ou condomínio extraído via regex do campo COMPLEMENTO original (ex: 'EDF SAINTE JULIANA', 'EDF. TOLIVE ONE'). 'não informado' quando o imóvel não possui nome de edifício. Coluna derivada: não existe na fonte original.",
+                "tipo_original_fonte": "Derivado de COMPLEMENTO (Char 61)",
+                "tamanho_original": null,
+                "tipo_final_etl": "str",
+                "nulos": 0,
+                "origem": "Derivado de COMPLEMENTO",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "CIDADE",
-                "descricao": "Cidade onde o imóvel está localizado",
-                "tipo": "Char",
-                "tamanho": 30,
+                "codigo": "valor_avaliacao",
+                "descricao": "Valor de avaliação do imóvel em R$. Separador decimal padronizado de vírgula para ponto e convertido para float64. Valores abaixo de R$ 10.000 são mantidos na base unificada mas tratados como NULL no Data Warehouse (identificados como erros de cadastro).",
+                "tipo_original_fonte": "Num",
+                "tamanho_original": "12,2",
+                "tipo_final_etl": "float64",
+                "nulos": 0,
+                "origem": "Original + tratado",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "ESTADO",
-                "descricao": "Sigla do estado onde o imóvel está localizado",
-                "tipo": "Char",
-                "tamanho": "02",
+                "codigo": "bairro",
+                "descricao": "Bairro onde o imóvel está localizado. Encoding corrigido, acentos removidos e espaços múltiplos normalizados. O número de valores únicos reduziu de 95 para o valor correto após a padronização (ex: 'GraÃ§as' e 'Gracas' unificados).",
+                "tipo_original_fonte": "Char",
+                "tamanho_original": 30,
+                "tipo_final_etl": "str",
+                "nulos": 0,
+                "origem": "Original + tratado",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "ANO CONSTRUCAO",
-                "descricao": "Ano em que o imóvel foi construido",
-                "tipo": "Num",
-                "tamanho": 4,
+                "codigo": "cidade",
+                "descricao": "Cidade onde o imóvel está localizado. Todos os registros contêm 'Recife'.",
+                "tipo_original_fonte": "Char",
+                "tamanho_original": 30,
+                "tipo_final_etl": "str",
+                "nulos": 0,
+                "origem": "Original",
+                "valores_permitidos": "Recife"
+            },
+            {
+                "codigo": "uf",
+                "descricao": "Sigla do estado onde o imóvel está localizado. Todos os registros contêm 'PE'.",
+                "tipo_original_fonte": "Char",
+                "tamanho_original": 2,
+                "tipo_final_etl": "str",
+                "nulos": 0,
+                "origem": "Original",
+                "valores_permitidos": "PE"
+            },
+            {
+                "codigo": "ano_construcao",
+                "descricao": "Ano em que o imóvel foi construído. Convertido de object para Int64 (tipo que suporta valores nulos no Pandas). Intervalo observado: 1915–2025. Nenhum valor fora desse intervalo foi encontrado.",
+                "tipo_original_fonte": "Num",
+                "tamanho_original": 4,
+                "tipo_final_etl": "Int64",
+                "nulos": 0,
+                "origem": "Original + tratado",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "AREA TERRENO",
-                "descricao": "Área do terreno em metros",
-                "tipo": "Num",
-                "tamanho": 8.2,
+                "codigo": "area_terreno",
+                "descricao": "Área do terreno em metros quadrados. Separador decimal padronizado de vírgula para ponto e convertido de object para float64.",
+                "tipo_original_fonte": "Num",
+                "tamanho_original": "8,2",
+                "tipo_final_etl": "float64",
+                "nulos": 0,
+                "origem": "Original + tratado",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "AREA CONSTRUIDA",
-                "descricao": "Área total da construção em metros",
-                "tipo": "Char",
-                "tamanho": 11,
+                "codigo": "area_construida",
+                "descricao": "Área total da construção em metros quadrados. Tipo incorreto na fonte original (Char). Separador decimal padronizado e convertido para float64.",
+                "tipo_original_fonte": "Char (incorreto na fonte)",
+                "tamanho_original": 11,
+                "tipo_final_etl": "float64",
+                "nulos": 0,
+                "origem": "Original + tratado",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "FRACAO IDEAL",
-                "descricao": "Fração ideal",
-                "tipo": "Num",
-                "tamanho": 7.5,
+                "codigo": "fracao_ideal",
+                "descricao": "Fração ideal do imóvel. Intervalo esperado: 0 a 1. Separador decimal padronizado e convertido para float64. Dois registros com valor superior a 1 foram mantidos por não ser possível confirmar o valor correto.",
+                "tipo_original_fonte": "Num",
+                "tamanho_original": "7,5",
+                "tipo_final_etl": "float64",
+                "nulos": 0,
+                "origem": "Original + tratado",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "PADRAO ACABAMENTO",
-                "descricao": "Padrão de acabamento do imóvel",
-                "tipo": "Char",
-                "tamanho": 11,
+                "codigo": "padrao_acabamento",
+                "descricao": "Padrão de acabamento do imóvel. Convertido para o tipo category do Pandas, mais eficiente em memória para colunas de baixa cardinalidade.",
+                "tipo_original_fonte": "Char",
+                "tamanho_original": 11,
+                "tipo_final_etl": "category",
+                "nulos": 0,
+                "origem": "Original + tratado",
+                "valores_permitidos": ["Simples", "Médio", "Superior"]
+            },
+            {
+                "codigo": "tipo_construcao",
+                "descricao": "Tipo de construção do imóvel. Coluna em bom estado na fonte: sem valores nulos e sem inconsistências. Nenhum tratamento adicional aplicado.",
+                "tipo_original_fonte": "Char",
+                "tamanho_original": 30,
+                "tipo_final_etl": "str",
+                "nulos": 0,
+                "origem": "Original",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "TIPO CONSTRUCAO",
-                "descricao": "Tipo de construção",
-                "tipo": "Char",
-                "tamanho": 30,
+                "codigo": "tipo_ocupacao",
+                "descricao": "Tipo de ocupação dada ao imóvel. Coluna em bom estado na fonte: sem valores nulos, apenas três categorias distintas e sem variações de escrita.",
+                "tipo_original_fonte": "Char",
+                "tamanho_original": 30,
+                "tipo_final_etl": "str",
+                "nulos": 0,
+                "origem": "Original",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "TIPO OCUPACAO",
-                "descricao": "Tipo de ocupação dada ao imóvel",
-                "tipo": "Char",
-                "tamanho": 30,
+                "codigo": "data_transacao",
+                "descricao": "Data da última compra/venda do imóvel. Tipo incorreto na fonte original (Char). Convertido para datetime64 com formato YYYY-MM-DD. Utilizado como base para derivação da dim_tempo no Data Warehouse.",
+                "tipo_original_fonte": "Char (incorreto na fonte)",
+                "tamanho_original": 26,
+                "tipo_final_etl": "datetime64[us]",
+                "nulos": 0,
+                "origem": "Original + tratado",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "VALOR AVALIACAO",
-                "descricao": "Valor de avaliação do imóvel",
-                "tipo": "Num",
-                "tamanho": 12.2,
+                "codigo": "estado_conservacao",
+                "descricao": "Estado de conservação do imóvel. Linha de cabeçalho duplicada removida (valor 'estado_conservacao' presente como dado após concatenação dos CSVs).",
+                "tipo_original_fonte": "Char",
+                "tamanho_original": 10,
+                "tipo_final_etl": "str",
+                "nulos": 0,
+                "origem": "Original + tratado",
+                "valores_permitidos": ["Bom", "Regular", "Mau"]
+            },
+            {
+                "codigo": "tipo_imovel",
+                "descricao": "Tipo do imóvel. Coluna em bom estado na fonte: 0 valores nulos e 19 categorias bem definidas sem variações de escrita ou abreviações.",
+                "tipo_original_fonte": "Char",
+                "tamanho_original": 30,
+                "tipo_final_etl": "str",
+                "nulos": 0,
+                "origem": "Original",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "DATA TRANSACAO",
-                "descricao": "Data da última compra/venda do imóvel",
-                "tipo": "Char",
-                "tamanho": 26,
+                "codigo": "sfh",
+                "descricao": "Valor do auxílio do Sistema Financeiro de Habitação em R$. Separador decimal padronizado e convertido para float64. A maioria dos registros tem valor zero, indicando transação sem auxílio do SFH.",
+                "tipo_original_fonte": "Num",
+                "tamanho_original": "12,2",
+                "tipo_final_etl": "float64",
+                "nulos": 0,
+                "origem": "Original + tratado",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "ESTADO CONSERVACAO",
-                "descricao": "Estado de conservação do imóvel",
-                "tipo": "Char",
-                "tamanho": 10,
+                "codigo": "cod_logradouro",
+                "descricao": "Código oficial do logradouro. Campo não documentado no dicionário original da Prefeitura, mas presente nos CSVs. Utilizado como chave natural de deduplicação na dim_localizacao, pois identifica unicamente a via independentemente de variações de grafia do nome.",
+                "tipo_original_fonte": "Não documentado na fonte",
+                "tamanho_original": null,
+                "tipo_final_etl": "Int64",
+                "nulos": 0,
+                "origem": "Original + tratado",
                 "valores_permitidos": ""
             },
             {
-                "codigo": "TIPO DE IMOVEL",
-                "descricao": "Tipo de imóvel",
-                "tipo": "Char",
-                "tamanho": 30,
-                "valores_permitidos": ""
+                "codigo": "ano",
+                "descricao": "Ano de origem do CSV (2023, 2024 ou 2025). Coluna criada durante a unificação dos três arquivos anuais para rastreabilidade de origem de cada registro. Não existe na fonte original.",
+                "tipo_original_fonte": "Não existe na fonte (derivado na unificação)",
+                "tamanho_original": null,
+                "tipo_final_etl": "int64",
+                "nulos": 0,
+                "origem": "Derivado na unificação",
+                "valores_permitidos": [2023, 2024, 2025]
+            }
+        ],
+        "colunas_removidas": [
+            {
+                "codigo": "complemento",
+                "descricao_original": "Complemento do endereço",
+                "tipo_original_fonte": "Char",
+                "tamanho_original": 61,
+                "motivo_remocao": "Substituída pelas colunas derivadas complemento_numero e nome_edificio após separação via regex. A coluna original misturava unidade do imóvel e nome do edifício em um único campo de texto livre."
+            },
+            {
+                "codigo": "latitude",
+                "descricao_original": "Latitude geográfica do imóvel",
+                "tipo_original_fonte": "Num",
+                "tamanho_original": null,
+                "motivo_remocao": "Percentual de nulos superior a 30%. Imputação inviável sem API externa. Informação geográfica coberta pelas colunas logradouro, numero e bairro."
+            },
+            {
+                "codigo": "longitude",
+                "descricao_original": "Longitude geográfica do imóvel",
+                "tipo_original_fonte": "Num",
+                "tamanho_original": null,
+                "motivo_remocao": "Mesmo critério de latitude. Removida em conjunto."
             },
             {
                 "codigo": "SEQUENCIAL",
-                "descricao": "Número único do imóvel, criptografado",
-                "tipo": "Char",
-                "tamanho": 30,
-                "valores_permitidos": ""
-            },
-            {
-                "codigo": "SFH",
-                "descricao": "SFH",
-                "tipo": "Num",
-                "tamanho": 12.2,
-                "valores_permitidos": ""
+                "descricao_original": "Número único do imóvel, criptografado",
+                "tipo_original_fonte": "Char",
+                "tamanho_original": 30,
+                "motivo_remocao": "Campo documentado no dicionário oficial da Prefeitura, mas ausente nos CSVs disponibilizados. Não utilizado no projeto."
             }
         ]
     }

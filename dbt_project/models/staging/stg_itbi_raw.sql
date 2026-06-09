@@ -25,13 +25,19 @@ tratado as (
             else upper(trim(numero))
         end as numero_tratado,
 
-        trim(substring(upper(complemento)
-            from '(?i)(?:EDF\.?|ED\.?|EDIFICIO|EDIFÍCIO)\s+([A-Z0-9 ]+)'))
-            as nome_edificio,
+        coalesce(
+            nullif(
+                trim(substring(upper(complemento)
+                from '(?i)(?:EDF\.?|ED\.?|EDIFICIO|EDIFÍCIO)\s+([A-Z0-9 ]+)')), ''
+            ), 'não informado'
+        ) as nome_edificio,
 
-        trim(regexp_replace(upper(complemento),
-            '(?i)(EDF\.?|ED\.?|EDIFICIO|EDIFÍCIO)\s+[^,;]+', '', 'g'))
-            as complemento_numero,
+        coalesce(
+            nullif(
+                trim(regexp_replace(upper(complemento),
+                    '(?i)(EDF\.?|ED\.?|EDIFICIO|EDIFÍCIO)\s+[^,;]+', '', 'g')), ''
+            ), 'não informado'
+        ) as complemento_numero,
 
         case
             when ano_construcao ~ '^\d{4}$'
